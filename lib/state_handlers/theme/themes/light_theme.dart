@@ -6,6 +6,12 @@ final ThemeData lightTheme = ThemeData(
   primaryColor: lightTertiaryColor,
   fontFamily: 'Montserrat',
   useMaterial3: true,
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: lightSecondaryColor,
+      backgroundColor: primarySwatch.shade400,
+    ),
+  ),
   canvasColor: lightTertiaryColor,
   scaffoldBackgroundColor: lightTertiaryColor,
   colorScheme: ColorScheme.fromSwatch(

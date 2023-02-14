@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-const Color accentColor = Color(0xFF99FA73);
+const Color accentColor = Color(0xFFA5fB83);
+const Color accentColorDark = Color(0xFF49EE08);
 MaterialColor primarySwatch = const MaterialColor(0xFFA5fB83, {
   50: Color(0xFFD5FDC5),
   100: Color(0xFFC9FDB4),
