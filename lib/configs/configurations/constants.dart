@@ -1,0 +1,1 @@
+enum StorageValues { isDarkTheme }
