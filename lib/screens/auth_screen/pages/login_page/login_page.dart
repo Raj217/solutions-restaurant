@@ -76,7 +76,8 @@ class _LoginPageState extends State<LoginPage>
       value: SystemUiOverlayStyle.light,
       child: Stack(
         children: [
-          Column(
+          ListView(
+            shrinkWrap: true,
             children: [
               AnimatedContainer(
                 duration: slowAnimDuration,
@@ -131,6 +132,8 @@ class _LoginPageState extends State<LoginPage>
                 curve: Curves.fastOutSlowIn,
                 child: CustomElevatedButton(
                   onTap: () {},
+                  leading: SizedBox(
+                      height: logoSize / 3, child: Image.asset(googleImgPath)),
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   title: 'Sign In with Google',
                 ),
@@ -138,7 +141,7 @@ class _LoginPageState extends State<LoginPage>
             ],
           ),
           Positioned(
-            top: _height - logoSize / 2,
+            top: _height - logoSize / 4,
             left: _screenSize.width / 2 - logoSizeLarge / 2 - logoSize / 3,
             child: AnimatedScale(
               duration: mediumAnimDuration,
