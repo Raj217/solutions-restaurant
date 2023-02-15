@@ -13,6 +13,3 @@ const Duration fastAnimDuration = kThemeAnimationDuration;
 const double logoSizeSmall = 20;
 const double logoSizeMedium = 25;
 const double logoSizeLarge = 30;
-
-// ======================== Assets ========================
-const String googleImgPath = 'assets/images/google.png';
