@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rive/rive.dart';
+import 'package:solutions/api/firebase/firebase_auth.dart';
 import 'package:solutions/configs/configs.dart';
 import 'package:solutions/utils/validators.dart';
 
@@ -15,6 +17,9 @@ class SignInOrUpForm extends StatefulWidget {
 
 class _SignInOrUpFormState extends State<SignInOrUpForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _passTextController = TextEditingController();
 
   bool isShowLoading = false;
   bool isShowConfetti = false;
@@ -68,13 +73,22 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
     reset.fire();
   }
 
-  void singIn(BuildContext context) {
+  void singInOrUp(BuildContext context) {
     fireLoading();
     Future.delayed(
       const Duration(seconds: 1),
-      () {
+      () async {
         if (_formKey.currentState!.validate()) {
-          fireSuccess();
+          String? res = await FirebaseAuthHandler.signInOrUp(
+              email: _emailTextController.text,
+              password: _passTextController.text);
+          if (res == null) {
+            fireSuccess();
+            Fluttertoast.showToast(msg: 'Welcome');
+          } else {
+            fireError();
+            Fluttertoast.showToast(msg: res);
+          }
         } else {
           fireError();
         }
@@ -96,6 +110,8 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
                 padding: const EdgeInsets.only(top: 8, bottom: 16),
                 child: TextFormField(
                   validator: Validators.isEmailValid,
+                  keyboardType: TextInputType.emailAddress,
+                  controller: _emailTextController,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.email, size: 20, color: accentColor),
                   ),
@@ -107,6 +123,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
                 child: TextFormField(
                   obscureText: true,
                   validator: Validators.isPasswordValid,
+                  controller: _passTextController,
                   decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.lock, size: 20, color: accentColor),
                   ),
@@ -115,7 +132,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
                 child: ElevatedButton.icon(
-                  onPressed: () => singIn(context),
+                  onPressed: () => singInOrUp(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     minimumSize: const Size(double.infinity, 56),
