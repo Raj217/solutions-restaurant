@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthHandler {
   static Future<String?> signInOrUp(
@@ -22,6 +23,19 @@ class FirebaseAuthHandler {
         }
         return signUpError.toString();
       }
+    }
+    return null;
+  }
+
+  static Future<String?> googleSignIn() async {
+    try {
+      GoogleSignIn googleSignIn = GoogleSignIn();
+      GoogleSignInAccount? account = await googleSignIn.signIn();
+      if (account == null) {
+        return "Couldn't sign in";
+      }
+    } catch (e) {
+      return e.toString();
     }
     return null;
   }

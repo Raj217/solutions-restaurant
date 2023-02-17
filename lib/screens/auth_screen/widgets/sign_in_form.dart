@@ -73,7 +73,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
     reset.fire();
   }
 
-  void singInOrUp(BuildContext context) {
+  void singInOrUp() {
     fireLoading();
     Future.delayed(
       const Duration(seconds: 1),
@@ -94,6 +94,20 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
         }
       },
     );
+  }
+
+  void googleSignIn() {
+    fireLoading();
+    Future.delayed(const Duration(seconds: 1), () async {
+      String? res = await FirebaseAuthHandler.googleSignIn();
+      if (res == null) {
+        fireSuccess();
+        Fluttertoast.showToast(msg: 'Welcome');
+      } else {
+        fireError();
+        Fluttertoast.showToast(msg: res);
+      }
+    });
   }
 
   @override
@@ -132,7 +146,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
                 child: ElevatedButton.icon(
-                  onPressed: () => singInOrUp(context),
+                  onPressed: () => singInOrUp(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     minimumSize: const Size(double.infinity, 56),
@@ -149,6 +163,39 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
                   icon: const Icon(CupertinoIcons.arrow_right),
                   label: const Text("Sign In / Sign Up"),
                 ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: Divider(
+                          color: Theme.of(context).disabledColor,
+                          endIndent: 10)),
+                  const Text('OR'),
+                  Expanded(
+                      child: Divider(
+                          color: Theme.of(context).disabledColor, indent: 10)),
+                ],
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () {
+                  googleSignIn();
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  minimumSize: const Size(double.infinity, 56),
+                  elevation: 4,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                      bottomLeft: Radius.circular(25),
+                    ),
+                  ),
+                ),
+                icon: SizedBox(height: 30, child: Image.asset(googlImgPath)),
+                label: const Text("Sign in With Google"),
               ),
             ],
           ),
