@@ -49,8 +49,8 @@ class AnimatedButton extends StatelessWidget {
                   const Icon(CupertinoIcons.arrow_right),
                   const SizedBox(width: 8),
                   Text(
-                    "Sign In",
-                    style: Theme.of(context).textTheme.button,
+                    "Join",
+                    style: Theme.of(context).textTheme.labelLarge,
                   )
                 ],
               ),

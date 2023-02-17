@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:solutions/screens/auth_screen/widgets/sign_in_form.dart';
 import 'package:solutions/configs/configs.dart';
-import 'sign_up_dialog.dart';
 
 class SignInDialog extends StatelessWidget {
   const SignInDialog({Key? key}) : super(key: key);

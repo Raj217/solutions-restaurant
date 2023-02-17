@@ -43,13 +43,13 @@ class _AuthScreenState extends State<AuthScreen> {
                     const AppIcon(),
                     const Spacer(),
                     Text(
-                      'Login',
+                      'Join Us',
                       style: Theme.of(context)
                           .textTheme
                           .headlineLarge
                           ?.copyWith(fontWeight: FontWeight.w500, fontSize: 50),
                     ),
-                    const Text('Join us in our journey to serve the world'),
+                    const Text('in our journey to serve the world'),
                     const Spacer(flex: 3),
                     SizedBox(
                       height: 200,
