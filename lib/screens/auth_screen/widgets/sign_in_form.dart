@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rive/rive.dart';
 import 'package:solutions/api/firebase/firebase_auth.dart';
 import 'package:solutions/configs/configs.dart';
+import 'package:solutions/screens/home_screen/home_screen.dart';
 import 'package:solutions/utils/validators.dart';
 
 class SignInOrUpForm extends StatefulWidget {
@@ -84,7 +85,9 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
               password: _passTextController.text);
           if (res == null) {
             fireSuccess();
-            Fluttertoast.showToast(msg: 'Welcome');
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pushNamed(context, HomeScreen.routeName);
+            });
           } else {
             fireError();
             Fluttertoast.showToast(msg: res);
@@ -102,7 +105,9 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
       String? res = await FirebaseAuthHandler.googleSignIn();
       if (res == null) {
         fireSuccess();
-        Fluttertoast.showToast(msg: 'Welcome');
+        Future.delayed(const Duration(seconds: 1), () {
+          Navigator.pushNamed(context, HomeScreen.routeName);
+        });
       } else {
         fireError();
         Fluttertoast.showToast(msg: res);

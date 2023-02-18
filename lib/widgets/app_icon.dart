@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 
 class AppIcon extends StatelessWidget {
-  const AppIcon({Key? key}) : super(key: key);
+  final double size;
+  const AppIcon({Key? key, this.size = 90}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90,
-      width: 90,
+      height: size,
+      width: size,
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.secondary.withOpacity(0.09),
-            spreadRadius: 15,
-            blurRadius: 20,
+            spreadRadius: size / 6,
+            blurRadius: size / 4.5,
           )
         ],
-        borderRadius: BorderRadius.circular(90),
+        borderRadius: BorderRadius.circular(size),
       ),
-      child: const Icon(Icons.ac_unit_rounded, size: 50),
+      child: Icon(Icons.ac_unit_rounded, size: size / 1.8),
     );
   }
 }
