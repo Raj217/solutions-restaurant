@@ -7,7 +7,7 @@ const String riveAnimConfettiPath = '$_riveBasePath/confetti.riv';
 const String riveAnimHousePath = '$_riveBasePath/house.riv';
 const String riveAnimIconsPath = '$_riveBasePath/icons.riv';
 const String riveAnimMapPath = '$_riveBasePath/map.riv';
-const String riveMenuButtonPath = '$_riveBasePath/menu_button.riv';
+const String riveAnimMenuButtonPath = '$_riveBasePath/menu.riv';
 
 const String _svgBasePath = 'assets/svgs';
 const String bgSVGPath = '$_svgBasePath/BG.svg';

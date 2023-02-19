@@ -1,10 +1,12 @@
+import 'dart:ui';
+
 import 'package:rive/rive.dart';
 
 class RiveUtils {
-  static void changeSMIBoolState(SMIBool input) {
+  static void changeSMIBoolState(SMIBool input, Duration duration) {
     input.change(true);
     Future.delayed(
-      const Duration(seconds: 2),
+      duration,
       () => input.change(false),
     );
   }

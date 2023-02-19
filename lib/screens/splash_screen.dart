@@ -19,14 +19,14 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
 
-    if (FirebaseAuth.instance.currentUser != null) {
+    if (FirebaseAuth.instance.currentUser?.email != null) {
       if (mounted) {
         Navigator.pushNamed(context, HomeScreen.routeName)
             .then((value) => exit(0));
       }
     } else {
       if (mounted) {
-        Navigator.pushNamed(context, HomeScreen.routeName)
+        Navigator.pushNamed(context, AuthScreen.routeName)
             .then((value) => exit(0));
       }
     }
@@ -40,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Center(
         child: AppIcon(size: 110),
       ),

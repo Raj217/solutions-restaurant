@@ -12,7 +12,7 @@ class BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<BottomNavbar> {
-  Menu selectedNav = bottomNavbarMenuItems.first;
+  RiveModel selectedNav = bottomNavbarMenuItems.first;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,11 +33,12 @@ class _BottomNavbarState extends State<BottomNavbar> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ...List.generate(bottomNavbarMenuItems.length, (index) {
-            Menu navBarItem = bottomNavbarMenuItems[index];
+            RiveModel navBarItem = bottomNavbarMenuItems[index];
             return BottomNavbarItem(
                 navBar: navBarItem,
                 onTap: () {
-                  RiveUtils.changeSMIBoolState(navBarItem.rive.status!);
+                  RiveUtils.changeSMIBoolState(
+                      navBarItem.status!, navBarItem.duration);
                   setState(() {
                     selectedNav = navBarItem;
                   });
@@ -46,9 +47,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
                   }
                 },
                 riveOnInit: (artboard) {
-                  navBarItem.rive.status = RiveUtils.getRiveInputBool(artboard,
-                      stateMachineName: navBarItem.rive.stateMachineName,
-                      inputName: navBarItem.rive.inputName);
+                  navBarItem.status = RiveUtils.getRiveInputBool(artboard,
+                      stateMachineName: navBarItem.stateMachineName,
+                      inputName: navBarItem.inputName);
                 },
                 selectedNav: selectedNav);
           })

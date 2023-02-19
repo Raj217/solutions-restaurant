@@ -11,10 +11,10 @@ class BottomNavbarItem extends StatelessWidget {
       required this.riveOnInit,
       required this.selectedNav});
 
-  final Menu navBar;
+  final RiveModel navBar;
   final VoidCallback onTap;
   final ValueChanged<Artboard> riveOnInit;
-  final Menu selectedNav;
+  final RiveModel selectedNav;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class BottomNavbarItem extends StatelessWidget {
             child: Opacity(
               opacity: selectedNav == navBar ? 1 : 0.5,
               child: RiveAnimation.asset(
-                navBar.rive.src,
-                artboard: navBar.rive.artboard,
+                navBar.src,
+                artboard: navBar.artboard,
                 onInit: riveOnInit,
               ),
             ),
