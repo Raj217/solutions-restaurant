@@ -6,6 +6,7 @@ import 'package:solutions/api/firebase/firebase_auth.dart';
 import 'package:solutions/configs/configs.dart';
 import 'package:solutions/screens/home_screen/home_screen.dart';
 import 'package:solutions/utils/validators.dart';
+import 'package:solutions/widgets/buttons/custom_elevated_button.dart';
 
 class SignInOrUpForm extends StatefulWidget {
   const SignInOrUpForm({
@@ -74,7 +75,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
     reset.fire();
   }
 
-  void singInOrUp() {
+  void signInOrUp() {
     fireLoading();
     Future.delayed(
       const Duration(seconds: 1),
@@ -150,23 +151,10 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 24),
-                child: ElevatedButton.icon(
-                  onPressed: () => singInOrUp(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    minimumSize: const Size(double.infinity, 56),
-                    elevation: 4,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
-                        bottomLeft: Radius.circular(25),
-                      ),
-                    ),
-                  ),
+                child: CustomElevatedIconButton(
+                  onPressed: signInOrUp,
                   icon: const Icon(CupertinoIcons.arrow_right),
-                  label: const Text("Sign In / Sign Up"),
+                  label: const Text("Sign in / Sign up"),
                 ),
               ),
               Row(
@@ -182,23 +170,8 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
                 ],
               ),
               const SizedBox(height: 20),
-              ElevatedButton.icon(
-                onPressed: () {
-                  googleSignIn();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  minimumSize: const Size(double.infinity, 56),
-                  elevation: 4,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(25),
-                      bottomRight: Radius.circular(25),
-                      bottomLeft: Radius.circular(25),
-                    ),
-                  ),
-                ),
+              CustomElevatedIconButton(
+                onPressed: googleSignIn,
                 icon: SizedBox(height: 30, child: Image.asset(googlImgPath)),
                 label: const Text("Sign in With Google"),
               ),

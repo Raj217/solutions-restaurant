@@ -7,7 +7,7 @@ import 'package:rive/rive.dart';
 import 'package:solutions/configs/configs.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:solutions/widgets/app_icon.dart';
-import 'package:solutions/widgets/buttons/animated_button.dart';
+import 'package:solutions/screens/auth_screen/widgets/animated_join_button.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({Key? key}) : super(key: key);

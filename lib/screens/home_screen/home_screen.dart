@@ -3,7 +3,6 @@ import 'package:solutions/configs/configs.dart';
 import 'package:solutions/screens/home_screen/widgets/side_menu/side_menu.dart';
 import 'package:solutions/utils/rive_utils.dart';
 import 'widgets/bottom_navbar/bottom_navbar.dart';
-import 'rive_constants.dart';
 import 'pages/home_page.dart';
 import 'pages/map_page.dart';
 import 'pages/updates_page.dart';
@@ -22,10 +21,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
   final PageController _pageController = PageController();
+  ValueNotifier<int> currentlySelectedPage = ValueNotifier(0);
   late final AnimationController _animController;
   late final Animation<double> _rotationAnimation, _scaleAnimation;
   bool isMenuOpen = false, isMenuAnimFinished = true;
   final double floatingButtonSize = 45;
+  late final RiveModel riveMenu;
+  final List<RiveModel> bottomNavbarMenuItems = [
+    getRiveHome(),
+    getRiveMap(),
+    getRiveRefresh(),
+    getRiveLike(),
+    getRiveUser(),
+  ];
 
   @override
   void initState() {
@@ -37,6 +45,7 @@ class _HomeScreenState extends State<HomeScreen>
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
+    riveMenu = getRiveMenu();
   }
 
   @override
@@ -50,7 +59,16 @@ class _HomeScreenState extends State<HomeScreen>
     return Scaffold(
       body: Stack(
         children: [
-          const SideMenu(topSpace: 100),
+          SideMenu(
+            topSpace: 70,
+            onTap: (String title) {
+              currentlySelectedPage.value = bottomNavbarMenuItems
+                  .indexWhere((RiveModel model) => model.title == title);
+              _pageController.jumpToPage(currentlySelectedPage.value);
+            },
+            currentSelectedModelTitle:
+                bottomNavbarMenuItems[currentlySelectedPage.value].title,
+          ),
           Transform(
             alignment: Alignment.centerRight,
             transform: Matrix4.identity()
@@ -73,8 +91,11 @@ class _HomeScreenState extends State<HomeScreen>
                   ],
                 ),
                 bottomNavigationBar: BottomNavbar(
+                  bottomNavbarMenuItems: bottomNavbarMenuItems,
+                  selectedIndex: currentlySelectedPage,
                   onTap: (int index) {
                     _pageController.jumpToPage(index);
+                    currentlySelectedPage.value = index;
                   },
                 ),
               ),
@@ -95,8 +116,7 @@ class _HomeScreenState extends State<HomeScreen>
                     borderRadius: BorderRadius.circular(floatingButtonSize),
                   ),
                   onPressed: () {
-                    menu.status.change(!menu.status.value);
-
+                    riveMenu.status.change(!riveMenu.status.value);
                     if (_animController.value == 0) {
                       _animController.forward();
                     } else if (_animController.value == 1) {
@@ -110,15 +130,15 @@ class _HomeScreenState extends State<HomeScreen>
                   child: SizedBox(
                     height: floatingButtonSize * 0.8,
                     child: RiveAnimation.asset(
-                      menu.src,
-                      artboard: menu.artboard,
+                      riveMenu.src,
+                      artboard: riveMenu.artboard,
                       onInit: (artboard) {
-                        menu.status = RiveUtils.getRiveInputBool(
+                        riveMenu.status = RiveUtils.getRiveInputBool(
                           artboard,
-                          stateMachineName: menu.stateMachineName,
-                          inputName: menu.inputName,
+                          stateMachineName: riveMenu.stateMachineName,
+                          inputName: riveMenu.inputName,
                         );
-                        menu.status.value = false;
+                        riveMenu.status.value = false;
                       },
                     ),
                   ),

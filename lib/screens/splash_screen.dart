@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:solutions/widgets/app_icon.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +20,8 @@ class _SplashScreenState extends State<SplashScreen> {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
 
-    if (FirebaseAuth.instance.currentUser?.email != null) {
+    if (FirebaseAuth.instance.currentUser?.email != null ||
+        await GoogleSignIn().signInSilently() != null) {
       if (mounted) {
         Navigator.pushNamed(context, HomeScreen.routeName)
             .then((value) => exit(0));
@@ -42,9 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Center(
-        child: AppIcon(size: 110),
-      ),
+      body: const Center(child: AppIcon(size: 110)),
     );
   }
 }

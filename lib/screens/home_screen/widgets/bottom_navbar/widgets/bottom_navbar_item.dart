@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:rive/rive.dart';
-import 'package:solutions/screens/home_screen/rive_constants.dart';
+import 'package:solutions/configs/configs.dart';
 import 'animated_bar.dart';
 
 class BottomNavbarItem extends StatelessWidget {
