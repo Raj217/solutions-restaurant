@@ -1,38 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:solutions/configs/configs.dart';
-import 'package:solutions/screens/home_screen/widgets/side_menu/side_menu.dart';
-import 'package:solutions/utils/rive_utils.dart';
-import 'widgets/bottom_navbar/bottom_navbar.dart';
-import 'pages/home_page.dart';
-import 'pages/map_page.dart';
-import 'pages/updates_page.dart';
-import 'pages/favorites_page.dart';
-import 'pages/user_page.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
+import 'package:solutions/configs/configurations/rive_models.dart';
+import 'package:solutions/state_handlers/pages/page_handler.dart';
+import 'package:solutions/utils/rive_utils.dart';
+import 'widgets/side_menu/side_menu.dart';
+import 'screens.dart';
+import 'widgets/bottom_nav_bar/bottom_navbar.dart';
+import 'package:solutions/utils/helper_structures.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  static const String routeName = '/homeScreen';
+class NavigableScreens extends StatefulWidget {
+  const NavigableScreens({Key? key}) : super(key: key);
+  static const String routeName = '/navigableScreens';
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<NavigableScreens> createState() => _NavigableScreensState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with SingleTickerProviderStateMixin {
-  final PageController _pageController = PageController();
-  ValueNotifier<int> currentlySelectedPage = ValueNotifier(0);
-  late final AnimationController _animController;
-  late final Animation<double> _rotationAnimation, _scaleAnimation;
+class _NavigableScreensState extends State<NavigableScreens>
+    with TickerProviderStateMixin {
   bool isMenuOpen = false, isMenuAnimFinished = true;
   final double floatingButtonSize = 45;
-  late final RiveModel riveMenu;
-  final List<RiveModel> bottomNavbarMenuItems = [
+  final RiveModel riveMenu = getRiveMenu();
+
+  final PageController _pageController = PageController();
+
+  late final AnimationController _animController;
+  late final Animation<double> _rotationAnimation, _scaleAnimation;
+
+  final ValueNotifier<int> currentlySelectedScreen = ValueNotifier<int>(0);
+
+  final List<BreakPoint> breakpoints = [
+    BreakPoint(title: 'BROWSE', endIndex: 4),
+    BreakPoint(title: 'USER', endIndex: 6),
+    BreakPoint(title: 'DEVELOPERS', endIndex: 7)
+  ];
+
+  final List<RiveModel> navigableScreenAnimModels = [
     getRiveHome(),
     getRiveMap(),
     getRiveRefresh(),
     getRiveLike(),
     getRiveUser(),
+    getRiveSettings(),
+    getRiveNotifications(),
+    getRiveContactUs(),
+  ];
+
+  final List<Widget> pages = const [
+    HomePage(),
+    MapPage(),
+    UpdatesPage(),
+    FavoritePage(),
+    UserPage(),
+    SettingsScreen(),
+    NotificationScreen(),
+    ContactUsScreen()
   ];
 
   @override
@@ -45,12 +68,12 @@ class _HomeScreenState extends State<HomeScreen>
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
-    riveMenu = getRiveMenu();
   }
 
   @override
   void dispose() {
     _animController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -61,13 +84,8 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           SideMenu(
             topSpace: 70,
-            onTap: (String title) {
-              currentlySelectedPage.value = bottomNavbarMenuItems
-                  .indexWhere((RiveModel model) => model.title == title);
-              _pageController.jumpToPage(currentlySelectedPage.value);
-            },
-            currentSelectedModelTitle:
-                bottomNavbarMenuItems[currentlySelectedPage.value].title,
+            navigableScreenAnimModels: navigableScreenAnimModels,
+            breakPoints: breakpoints,
           ),
           Transform(
             alignment: Alignment.centerRight,
@@ -78,26 +96,26 @@ class _HomeScreenState extends State<HomeScreen>
               ..translate(_rotationAnimation.value * 140),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Scaffold(
-                body: PageView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _pageController,
-                  children: const [
-                    HomePage(),
-                    MapPage(),
-                    UpdatesPage(),
-                    FavoritePage(),
-                    UserPage()
-                  ],
-                ),
-                bottomNavigationBar: BottomNavbar(
-                  bottomNavbarMenuItems: bottomNavbarMenuItems,
-                  selectedIndex: currentlySelectedPage,
-                  onTap: (int index) {
-                    _pageController.jumpToPage(index);
-                    currentlySelectedPage.value = index;
-                  },
-                ),
+              child: Consumer<PageHandler>(
+                builder: (BuildContext context, PageHandler pageHandler, _) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    _pageController.jumpToPage(pageHandler.currentIndex);
+                  });
+                  return Scaffold(
+                    body: PageView(
+                      physics: const NeverScrollableScrollPhysics(),
+                      controller: _pageController,
+                      children: pages,
+                    ),
+                    bottomNavigationBar:
+                        pageHandler.currentIndex <= breakpoints.first.endIndex
+                            ? BottomNavbar(
+                                bottomNavbarMenuItems: navigableScreenAnimModels
+                                    .sublist(0, breakpoints[0].endIndex + 1),
+                              )
+                            : null,
+                  );
+                },
               ),
             ),
           ),
@@ -122,7 +140,6 @@ class _HomeScreenState extends State<HomeScreen>
                     } else if (_animController.value == 1) {
                       _animController.reverse();
                     }
-
                     setState(() {
                       isMenuOpen = !isMenuOpen;
                     });

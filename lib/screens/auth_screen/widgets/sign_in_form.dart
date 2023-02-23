@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:rive/rive.dart';
 import 'package:solutions/api/firebase/firebase_auth.dart';
 import 'package:solutions/configs/configs.dart';
-import 'package:solutions/screens/home_screen/home_screen.dart';
+import 'package:solutions/screens/navigable_screens.dart';
 import 'package:solutions/utils/validators.dart';
 import 'package:solutions/widgets/buttons/custom_elevated_button.dart';
 
@@ -87,7 +87,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
           if (res == null) {
             fireSuccess();
             Future.delayed(const Duration(seconds: 1), () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, NavigableScreens.routeName);
             });
           } else {
             fireError();
@@ -107,7 +107,7 @@ class _SignInOrUpFormState extends State<SignInOrUpForm> {
       if (res == null) {
         fireSuccess();
         Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushNamed(context, HomeScreen.routeName);
+          Navigator.pushNamed(context, NavigableScreens.routeName);
         });
       } else {
         fireError();

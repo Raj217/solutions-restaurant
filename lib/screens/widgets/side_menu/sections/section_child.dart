@@ -7,14 +7,16 @@ import 'package:solutions/configs/configs.dart';
 class SectionChild extends StatefulWidget {
   final String title;
   final RiveModel riveModel;
-  final VoidCallback? onTap;
   final bool isCurrentSelected;
+  final int index;
+  final void Function(int) onTap;
   const SectionChild(
       {Key? key,
       required this.title,
       required this.riveModel,
-      this.onTap,
-      required this.isCurrentSelected})
+      required this.index,
+      required this.isCurrentSelected,
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -26,9 +28,7 @@ class _SectionChildState extends State<SectionChild> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (widget.onTap != null) {
-          widget.onTap!();
-        }
+        widget.onTap(widget.index);
         RiveUtils.changeSMIBoolState(
             widget.riveModel.status, widget.riveModel.duration);
       },

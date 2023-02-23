@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class FavoritePage extends StatefulWidget {
   const FavoritePage({Key? key}) : super(key: key);
+  static const String routeName = '/homeScreen/favoritesPage';
 
   @override
   State<FavoritePage> createState() => _FavoritePageState();

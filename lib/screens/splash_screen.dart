@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:solutions/screens/navigable_screens.dart';
 import 'package:solutions/widgets/app_icon.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'home_screen/home_screen.dart';
 import 'auth_screen/auth_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (FirebaseAuth.instance.currentUser?.email != null ||
         await GoogleSignIn().signInSilently() != null) {
       if (mounted) {
-        Navigator.pushNamed(context, HomeScreen.routeName)
+        Navigator.pushNamed(context, NavigableScreens.routeName)
             .then((value) => exit(0));
       }
     } else {
