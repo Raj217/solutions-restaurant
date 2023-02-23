@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
-void showCustomDialog(BuildContext context,
-    {required ValueChanged onValue, required Widget child, double? height}) {
+void showCustomDialog(
+  BuildContext context, {
+  required ValueChanged onValue,
+  required Widget child,
+  double? height,
+  bool isBarrierDismissible = true,
+}) {
   showGeneralDialog(
     context: context,
     barrierLabel: "Barrier",
-    barrierDismissible: true,
+    barrierDismissible: isBarrierDismissible,
     barrierColor: Colors.black.withOpacity(0.5),
     transitionDuration: const Duration(milliseconds: 400),
     pageBuilder: (_, __, ___) {

@@ -1,14 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'state_handlers/pages/page_handler.dart';
 import 'state_handlers/theme/them_handler.dart';
 import 'package:provider/provider.dart';
 import 'screens/screens.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
   runApp(const MyApp());
 }
 
@@ -19,7 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (BuildContext context) => ThemeHandler())
+        ChangeNotifierProvider(
+            create: (BuildContext context) => ThemeHandler()),
+        ChangeNotifierProvider(create: (BuildContext context) => PageHandler()),
       ],
       child: Consumer<ThemeHandler>(
           builder: (BuildContext context, ThemeHandler themeHandler, _) {
@@ -29,9 +27,13 @@ class MyApp extends StatelessWidget {
           darkTheme: darkTheme,
           themeMode:
               themeHandler.isDarkTheme ? ThemeMode.dark : ThemeMode.light,
-          initialRoute: AuthScreen.routeName,
+          initialRoute: SplashScreen.routeName,
           routes: {
+            SplashScreen.routeName: (BuildContext context) =>
+                const SplashScreen(),
             AuthScreen.routeName: (BuildContext context) => const AuthScreen(),
+            NavigableScreens.routeName: (BuildContext context) =>
+                const NavigableScreens(),
           },
         );
       }),

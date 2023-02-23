@@ -11,7 +11,7 @@ class ThemeHandler extends ChangeNotifier {
   bool get isDarkTheme => _isDarkTheme;
 
   ThemeHandler() {
-    _isDarkTheme = true;
+    _isDarkTheme = false;
     _loadPrefs();
   }
 
@@ -27,7 +27,7 @@ class ThemeHandler extends ChangeNotifier {
 
   _loadPrefs() async {
     await _initiatePrefs();
-    _isDarkTheme = _prefs?.getBool(StorageValues.isDarkTheme.name) ?? true;
+    _isDarkTheme = _prefs?.getBool(StorageValues.isDarkTheme.name) ?? false;
     notifyListeners();
   }
 
