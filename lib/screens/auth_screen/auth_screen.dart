@@ -1,5 +1,5 @@
 import 'dart:ui';
-import 'widgets/sign_in_dialog.dart';
+import 'widgets/sign_in_or_up_dialog.dart';
 
 import '../../widgets/dialog/custom_dialog.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +73,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               setState(() {
                                 isSignInDialogShown = false;
                               });
-                            }, child: const SignInDialog());
+                            }, child: const SignInOrUpDialog());
                           },
                         );
                       },

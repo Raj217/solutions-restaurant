@@ -1,4 +1,11 @@
 class Validators {
+  static String? isEmpty(String? name) {
+    if (name == null || name.isEmpty) {
+      return 'Field cannot be null';
+    }
+    return null;
+  }
+
   static String? isEmailValid(String? email) {
     if (email == null) {
       return 'email cannot be empty';

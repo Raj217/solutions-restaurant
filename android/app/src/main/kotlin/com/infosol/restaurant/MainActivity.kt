@@ -1,4 +1,4 @@
-package com.google_solutions.solutions
+package com.infosol.restaurant
 
 import io.flutter.embedding.android.FlutterActivity
 

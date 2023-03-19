@@ -41,9 +41,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
               return BottomNavbarItem(
                   navBar: navBarItem,
                   onTap: () {
+                    pageHandler.currentIndex = index;
                     RiveUtils.changeSMIBoolState(
                         navBarItem.status!, navBarItem.duration);
-                    pageHandler.currentIndex = index;
                   },
                   riveOnInit: (artboard) {
                     navBarItem.status = RiveUtils.getRiveInputBool(artboard,
