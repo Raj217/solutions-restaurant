@@ -1,10 +1,18 @@
+import 'dart:io';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:solutions/state_handlers/user/user_handler.dart';
 import 'state_handlers/pages/page_handler.dart';
 import 'state_handlers/theme/them_handler.dart';
 import 'package:provider/provider.dart';
 import 'screens/screens.dart';
+import 'package:http_proxy/http_proxy.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HttpProxy httpProxy = await HttpProxy.createHttpProxy();
+  HttpOverrides.global = httpProxy;
   runApp(const MyApp());
 }
 
@@ -18,6 +26,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (BuildContext context) => ThemeHandler()),
         ChangeNotifierProvider(create: (BuildContext context) => PageHandler()),
+        ChangeNotifierProvider(create: (BuildContext context) => UserHandler()),
       ],
       child: Consumer<ThemeHandler>(
           builder: (BuildContext context, ThemeHandler themeHandler, _) {

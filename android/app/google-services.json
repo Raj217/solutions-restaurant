@@ -1,41 +1,78 @@
 {
   "project_info": {
-    "project_number": "647597175198",
-    "project_id": "solutions-33140",
-    "storage_bucket": "solutions-33140.appspot.com"
+    "project_number": "907620256840",
+    "project_id": "solutions-challenge-9e743",
+    "storage_bucket": "solutions-challenge-9e743.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:647597175198:android:857a9f654038a4ea60268f",
+        "mobilesdk_app_id": "1:907620256840:android:6221d77a64a17d61dd9c7d",
         "android_client_info": {
-          "package_name": "com.google_solutions.solutions"
+          "package_name": "com.infosol.developer"
         }
       },
       "oauth_client": [
         {
-          "client_id": "647597175198-lvbsbllrvv18dk0ooqv296rgi1739gqj.apps.googleusercontent.com",
+          "client_id": "907620256840-3hnntou80id8ee9v0rll70lujupotkar.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.google_solutions.solutions",
+            "package_name": "com.infosol.developer",
             "certificate_hash": "623e6c05bf9cd444c381cfa0e3ea6cb5866cc2b1"
           }
         },
         {
-          "client_id": "647597175198-3o1ep3m7dvjuqgq8aoqa5kqpds07lksp.apps.googleusercontent.com",
+          "client_id": "907620256840-l9dg29ggcq9jo4nutr0pdn27ktrnaoa2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAFgq8bocFe60mQIvMxiwniu6900ALvw_4"
+          "current_key": "AIzaSyCo5k-0AwCSaUoL6swvlQnxaiRTWS7fpDc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "647597175198-3o1ep3m7dvjuqgq8aoqa5kqpds07lksp.apps.googleusercontent.com",
+              "client_id": "907620256840-7ghhlhg7eji6hnqr7lbsjmbn0c2u4gnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907620256840:android:96047566362b336cdd9c7d",
+        "android_client_info": {
+          "package_name": "com.infosol.restaurant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907620256840-b69n7m5a6jok2uon2o740oqugkin0ll7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.infosol.restaurant",
+            "certificate_hash": "623e6c05bf9cd444c381cfa0e3ea6cb5866cc2b1"
+          }
+        },
+        {
+          "client_id": "907620256840-l9dg29ggcq9jo4nutr0pdn27ktrnaoa2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo5k-0AwCSaUoL6swvlQnxaiRTWS7fpDc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907620256840-7ghhlhg7eji6hnqr7lbsjmbn0c2u4gnq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

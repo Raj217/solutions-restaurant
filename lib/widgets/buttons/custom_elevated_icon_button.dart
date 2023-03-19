@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class CustomElevatedIconButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Widget icon;
-  final Widget label;
+  final Widget? label;
+  final Size? minSize;
   const CustomElevatedIconButton(
       {Key? key,
       required this.onPressed,
       required this.icon,
-      required this.label})
+      this.label,
+      this.minSize})
       : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class CustomElevatedIconButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
-          minimumSize: const Size(double.infinity, 56),
+          minimumSize: minSize ?? const Size(double.infinity, 56),
           elevation: 4,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -29,6 +31,6 @@ class CustomElevatedIconButton extends StatelessWidget {
           ),
         ),
         icon: icon,
-        label: label);
+        label: label ?? const SizedBox.shrink());
   }
 }

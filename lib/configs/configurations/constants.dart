@@ -16,3 +16,8 @@ const String chefSVGPath = '$_svgBasePath/chef.svg';
 
 const String _imgBasePath = 'assets/images';
 const String googlImgPath = '$_imgBasePath/google.png';
+
+const String collectionUsers = "users";
+const String collectionRestaurants = "restaurants";
+const String collectionEvents = "events";
+const String collectionAwards = "awards";
