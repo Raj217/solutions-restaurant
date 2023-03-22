@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:solutions/state_handlers/pages/page_handler.dart';
 import 'sections/section_child.dart';
 import 'sections/sections_skeleton.dart';
-import 'sections/user_info_section.dart';
+import '../../../widgets/user_profile_img.dart';
 import 'package:solutions/configs/configs.dart';
 import 'package:solutions/utils/helper_structures.dart';
 
@@ -74,7 +74,7 @@ class _SideMenuState extends State<SideMenu> {
             child: ListView(
               children: [
                 SizedBox(height: widget.topSpace),
-                const UserInfoSection(),
+                const UserProfileImg(),
                 const SizedBox(height: 20),
                 ...children
               ],

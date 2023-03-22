@@ -3,7 +3,7 @@ import 'package:rive/rive.dart';
 import 'package:solutions/configs/configs.dart';
 import '../../animated/animated_bar.dart';
 
-class BottomNavbarItem extends StatefulWidget {
+class BottomNavbarItem extends StatelessWidget {
   const BottomNavbarItem(
       {super.key,
       required this.navBar,
@@ -17,27 +17,22 @@ class BottomNavbarItem extends StatefulWidget {
   final RiveModel selectedNav;
 
   @override
-  State<BottomNavbarItem> createState() => _BottomNavbarItemState();
-}
-
-class _BottomNavbarItemState extends State<BottomNavbarItem> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          AnimatedBar(isActive: widget.selectedNav == widget.navBar),
+          AnimatedBar(isActive: selectedNav == navBar),
           SizedBox(
             height: 36,
             width: 36,
             child: Opacity(
-              opacity: widget.selectedNav == widget.navBar ? 1 : 0.5,
+              opacity: selectedNav == navBar ? 1 : 0.5,
               child: RiveAnimation.asset(
-                widget.navBar.src,
-                artboard: widget.navBar.artboard,
-                onInit: widget.riveOnInit,
+                navBar.src,
+                artboard: navBar.artboard,
+                onInit: riveOnInit,
               ),
             ),
           ),

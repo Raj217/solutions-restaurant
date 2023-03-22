@@ -17,6 +17,7 @@ import 'package:solutions/widgets/location_viewer/location_viewer.dart';
 import 'package:latlong2/latlong.dart' as latLng;
 import 'package:solutions/widgets/fields/custom_text_field.dart';
 import 'package:solutions/model/app_user.dart';
+import 'package:solutions/api/firestore/firestore.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -175,7 +176,9 @@ class _RegisterFormState extends State<RegisterForm> {
           if (res == null) {
             fireSuccess();
 
-            Future.delayed(const Duration(seconds: 1), () {
+            Future.delayed(const Duration(seconds: 1), () async {
+              Provider.of<UserHandler>(context, listen: false).user =
+                  await FirestoreHandler.getUserData();
               Navigator.pushNamed(context, NavigableScreens.routeName);
             });
           } else {
@@ -192,18 +195,16 @@ class _RegisterFormState extends State<RegisterForm> {
   void googleSignIn() {
     fireLoading();
     Future.delayed(const Duration(seconds: 1), () async {
-      dynamic res = await FirebaseAuthHandler.googleSignIn();
-      if (res.runtimeType is! String) {
-        try {
-          await FirebaseAuthHandler.firebaseSignInWithGoogle(res);
-          hideLoading();
-        } catch (e) {
-          Fluttertoast.showToast(msg: e.toString());
+      try {
+        dynamic res = await FirebaseAuthHandler.googleSignIn();
+        if (res != null) {
           fireError();
+          Fluttertoast.showToast(msg: res);
         }
-      } else {
+        hideLoading();
+      } catch (e) {
+        Fluttertoast.showToast(msg: e.toString());
         fireError();
-        Fluttertoast.showToast(msg: res);
       }
     });
   }
@@ -222,7 +223,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CustomElevatedIconButton(
+                    CustomElevatedButton(
                       onPressed: googleSignIn,
                       minSize: const Size(20, 40),
                       icon: Row(
@@ -293,7 +294,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     )),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 24),
-                  child: CustomElevatedIconButton(
+                  child: CustomElevatedButton(
                     onPressed: register,
                     icon: const Icon(CupertinoIcons.arrow_right),
                     label: const Text("Register"),

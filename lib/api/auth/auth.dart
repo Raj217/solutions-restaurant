@@ -8,6 +8,9 @@ class FirebaseAuthHandler {
     try {
       GoogleSignIn googleSignIn = GoogleSignIn();
       account = await googleSignIn.signIn();
+      if (account != null) {
+        await firebaseSignInWithGoogle(account);
+      }
       if (account == null) {
         return "Couldn't sign in";
       }
