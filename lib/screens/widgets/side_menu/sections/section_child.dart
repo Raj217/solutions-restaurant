@@ -4,7 +4,7 @@ import 'package:rive/rive.dart' as rive;
 import 'package:solutions/utils/rive_utils.dart';
 import 'package:solutions/configs/configs.dart';
 
-class SectionChild extends StatefulWidget {
+class SectionChild extends StatelessWidget {
   final String title;
   final RiveModel riveModel;
   final bool isCurrentSelected;
@@ -20,17 +20,11 @@ class SectionChild extends StatefulWidget {
       : super(key: key);
 
   @override
-  State<SectionChild> createState() => _SectionChildState();
-}
-
-class _SectionChildState extends State<SectionChild> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        widget.onTap(widget.index);
-        RiveUtils.changeSMIBoolState(
-            widget.riveModel.status, widget.riveModel.duration);
+        onTap(index);
+        RiveUtils.changeSMIBoolState(riveModel.status, riveModel.duration);
       },
       child: Stack(
         alignment: Alignment.centerLeft,
@@ -43,7 +37,7 @@ class _SectionChildState extends State<SectionChild> {
           AnimatedContainer(
             duration: kThemeAnimationDuration,
             curve: Curves.fastOutSlowIn,
-            width: widget.isCurrentSelected
+            width: isCurrentSelected
                 ? min(MediaQuery.of(context).size.width * 0.6, 200)
                 : 0,
             height: 56,
@@ -60,19 +54,18 @@ class _SectionChildState extends State<SectionChild> {
                   height: 30,
                   width: 30,
                   child: rive.RiveAnimation.asset(
-                    widget.riveModel.src,
-                    artboard: widget.riveModel.artboard,
+                    riveModel.src,
+                    artboard: riveModel.artboard,
                     onInit: (rive.Artboard artboard) {
-                      widget.riveModel.status = RiveUtils.getRiveInputBool(
-                          artboard,
-                          stateMachineName: widget.riveModel.stateMachineName,
-                          inputName: widget.riveModel.inputName);
+                      riveModel.status = RiveUtils.getRiveInputBool(artboard,
+                          stateMachineName: riveModel.stateMachineName,
+                          inputName: riveModel.inputName);
                     },
                   ),
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  widget.riveModel.title,
+                  riveModel.title,
                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: Theme.of(context).scaffoldBackgroundColor),
                 ),

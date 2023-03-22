@@ -5,16 +5,11 @@ import 'widgets/bottom_navbar_item.dart';
 import 'package:solutions/utils/rive_utils.dart';
 import 'package:solutions/configs/configs.dart';
 
-class BottomNavbar extends StatefulWidget {
+class BottomNavbar extends StatelessWidget {
   final List<RiveModel> bottomNavbarMenuItems;
   const BottomNavbar({Key? key, required this.bottomNavbarMenuItems})
       : super(key: key);
 
-  @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
-}
-
-class _BottomNavbarState extends State<BottomNavbar> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PageHandler>(
@@ -36,8 +31,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            ...List.generate(widget.bottomNavbarMenuItems.length, (index) {
-              RiveModel navBarItem = widget.bottomNavbarMenuItems[index];
+            ...List.generate(bottomNavbarMenuItems.length, (index) {
+              RiveModel navBarItem = bottomNavbarMenuItems[index];
               return BottomNavbarItem(
                   navBar: navBarItem,
                   onTap: () {
@@ -46,12 +41,16 @@ class _BottomNavbarState extends State<BottomNavbar> {
                         navBarItem.status!, navBarItem.duration);
                   },
                   riveOnInit: (artboard) {
-                    navBarItem.status = RiveUtils.getRiveInputBool(artboard,
-                        stateMachineName: navBarItem.stateMachineName,
-                        inputName: navBarItem.inputName);
+                    navBarItem.status = RiveUtils.getRiveInputBool(
+                      artboard,
+                      stateMachineName: navBarItem.stateMachineName,
+                      inputName: navBarItem.inputName,
+                    );
+                    if (navBarItem.defaultBoolVal != null) {
+                      navBarItem.status.change(navBarItem.defaultBoolVal);
+                    }
                   },
-                  selectedNav:
-                      widget.bottomNavbarMenuItems[pageHandler.currentIndex]);
+                  selectedNav: bottomNavbarMenuItems[pageHandler.currentIndex]);
             })
           ],
         ),

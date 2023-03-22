@@ -4,10 +4,10 @@ import 'package:rive/rive.dart';
 
 class RiveUtils {
   static void changeSMIBoolState(SMIBool input, Duration duration) {
-    input.change(true);
+    input.change(!input.value);
     Future.delayed(
       duration,
-      () => input.change(false),
+      () => input.change(!input.value),
     );
   }
 

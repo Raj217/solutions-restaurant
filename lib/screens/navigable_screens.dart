@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:solutions/configs/configurations/rive_models.dart';
 import 'package:solutions/state_handlers/pages/page_handler.dart';
+import 'package:solutions/state_handlers/user/user_handler.dart';
 import 'package:solutions/utils/rive_utils.dart';
+import 'package:solutions/widgets/overlay/custom_loading_overlay.dart';
 import 'widgets/side_menu/side_menu.dart';
 import 'screens.dart';
 import 'widgets/bottom_nav_bar/bottom_navbar.dart';
 import 'package:solutions/utils/helper_structures.dart';
+import 'package:solutions/widgets/dialog/user_data_update_dialog.dart';
 
 class NavigableScreens extends StatefulWidget {
   const NavigableScreens({Key? key}) : super(key: key);
@@ -39,7 +43,18 @@ class _NavigableScreensState extends State<NavigableScreens>
   final List<RiveModel> navigableScreenAnimModels = [
     getRiveHome(),
     getRiveMap(),
-    getRiveRefresh(),
+    getRiveCalendar(),
+    getRiveLike(),
+    getRiveUser(),
+    getRiveSettings(),
+    getRiveNotifications(),
+    getRiveContactUs(),
+  ];
+
+  final List<RiveModel> bottomNavbarAnimModels = [
+    getRiveHome(),
+    getRiveMap(),
+    getRiveCalendar(),
     getRiveLike(),
     getRiveUser(),
     getRiveSettings(),
@@ -50,8 +65,8 @@ class _NavigableScreensState extends State<NavigableScreens>
   final List<Widget> pages = const [
     HomePage(),
     MapPage(),
-    UpdatesPage(),
-    FavoritePage(),
+    EventsPage(),
+    AwardsPage(),
     UserPage(),
     SettingsScreen(),
     NotificationScreen(),
@@ -68,6 +83,12 @@ class _NavigableScreensState extends State<NavigableScreens>
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
     _scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(
         CurvedAnimation(parent: _animController, curve: Curves.fastOutSlowIn));
+    if (Provider.of<UserHandler>(context, listen: false).user?.firstName ==
+        null) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        showUserDataUpdateDialog(context);
+      });
+    }
   }
 
   @override
@@ -110,7 +131,7 @@ class _NavigableScreensState extends State<NavigableScreens>
                     bottomNavigationBar:
                         pageHandler.currentIndex <= breakpoints.first.endIndex
                             ? BottomNavbar(
-                                bottomNavbarMenuItems: navigableScreenAnimModels
+                                bottomNavbarMenuItems: bottomNavbarAnimModels
                                     .sublist(0, breakpoints[0].endIndex + 1),
                               )
                             : null,

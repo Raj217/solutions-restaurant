@@ -2,13 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:rive/rive.dart';
 import 'package:solutions/api/auth/auth.dart';
 import 'package:solutions/configs/configs.dart';
 import 'package:solutions/screens/navigable_screens.dart';
+import 'package:solutions/state_handlers/user/user_handler.dart';
 import 'package:solutions/utils/validators.dart';
 import 'package:solutions/widgets/buttons/custom_elevated_icon_button.dart';
 import 'package:solutions/widgets/fields/custom_text_field.dart';
+import 'package:solutions/api/firestore/firestore.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({
@@ -90,7 +93,9 @@ class _SignInFormState extends State<SignInForm> {
               password: _passController.text,
             );
             fireSuccess();
-            Future.delayed(const Duration(seconds: 1), () {
+            Future.delayed(const Duration(seconds: 1), () async {
+              Provider.of<UserHandler>(context, listen: false).user =
+                  await FirestoreHandler.getUserData();
               Navigator.pushNamed(context, NavigableScreens.routeName);
             });
           } catch (e) {
@@ -110,8 +115,15 @@ class _SignInFormState extends State<SignInForm> {
       dynamic res = await FirebaseAuthHandler.googleSignIn();
       if (res != null) {
         fireSuccess();
-        Future.delayed(const Duration(seconds: 1), () {
-          Navigator.pushNamed(context, NavigableScreens.routeName);
+        Future.delayed(const Duration(seconds: 1), () async {
+          try {
+            Provider.of<UserHandler>(context, listen: false).user =
+                await FirestoreHandler.getUserData();
+          } catch (e) {
+            Fluttertoast.showToast(msg: e.toString());
+          } finally {
+            Navigator.pushNamed(context, NavigableScreens.routeName);
+          }
         });
       } else {
         fireError();
@@ -145,7 +157,7 @@ class _SignInFormState extends State<SignInForm> {
                     icon: Icons.lock),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, bottom: 24),
-                  child: CustomElevatedIconButton(
+                  child: CustomElevatedButton(
                     onPressed: signIn,
                     icon: const Icon(CupertinoIcons.arrow_right),
                     label: const Text("Sign in"),
@@ -165,7 +177,7 @@ class _SignInFormState extends State<SignInForm> {
                   ],
                 ),
                 const SizedBox(height: 20),
-                CustomElevatedIconButton(
+                CustomElevatedButton(
                   onPressed: googleSignIn,
                   icon: SizedBox(height: 30, child: Image.asset(googlImgPath)),
                   label: const Text("Sign in With Google"),

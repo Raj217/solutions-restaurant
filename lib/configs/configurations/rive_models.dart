@@ -9,7 +9,15 @@ RiveModel getRiveMenu() => RiveModel<SMIBool>(
       stateMachineName: "MENU_Interactivity",
       duration: const Duration(seconds: 1),
     );
-
+RiveModel getRiveCalendar() => RiveModel<SMIBool>(
+      title: 'Calendar',
+      src: riveAnimCalendarButtonPath,
+      artboard: "Calendar",
+      inputName: 'Hover',
+      defaultBoolVal: false,
+      stateMachineName: "State Machine 1",
+      duration: const Duration(seconds: 1),
+    );
 RiveModel getRiveHome() => RiveModel<SMIBool>(
       title: 'Home',
       src: riveAnimIconsPath,
@@ -93,6 +101,7 @@ RiveModel getRiveContactUs() => RiveModel<SMIBool>(
 class RiveModel<SMIType> {
   String src, artboard, stateMachineName, inputName, title;
   SMIType? status;
+  bool? defaultBoolVal;
   Duration duration;
 
   RiveModel({
@@ -101,6 +110,7 @@ class RiveModel<SMIType> {
     required this.artboard,
     required this.stateMachineName,
     required this.inputName,
+    this.defaultBoolVal,
     this.status,
     required this.duration,
   });

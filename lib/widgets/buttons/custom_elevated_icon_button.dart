@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
-class CustomElevatedIconButton extends StatelessWidget {
+class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
-  final Widget icon;
+  final Widget? icon;
   final Widget? label;
   final Size? minSize;
-  const CustomElevatedIconButton(
-      {Key? key,
-      required this.onPressed,
-      required this.icon,
-      this.label,
-      this.minSize})
+  const CustomElevatedButton(
+      {Key? key, required this.onPressed, this.icon, this.label, this.minSize})
       : super(key: key);
 
   @override
@@ -30,7 +26,7 @@ class CustomElevatedIconButton extends StatelessWidget {
             ),
           ),
         ),
-        icon: icon,
+        icon: icon ?? const SizedBox.shrink(),
         label: label ?? const SizedBox.shrink());
   }
 }

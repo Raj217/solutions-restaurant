@@ -1,42 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:solutions/configs/configs.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String label;
   final bool obscureText;
   final TextInputType keyboardType;
-  final String? Function(String?) validator;
-  final TextEditingController controller;
-  final IconData icon;
+  final bool editOnTap;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+  final IconData? icon;
+  final bool readOnlyMode;
+  final String? initValue;
   const CustomTextField({
     Key? key,
     required this.label,
     this.obscureText = false,
+    this.editOnTap = false,
     this.keyboardType = TextInputType.text,
-    required this.validator,
-    required this.controller,
-    required this.icon,
+    this.validator,
+    this.controller,
+    this.readOnlyMode = false,
+    this.icon,
+    this.initValue,
   }) : super(key: key);
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool isEditing = false;
+  bool readOnlyMode = false;
+  final FocusNode focusNode = FocusNode();
+  @override
   Widget build(BuildContext context) {
+    readOnlyMode =
+        (widget.readOnlyMode == true) ? true : (widget.editOnTap && !isEditing);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          label,
+          widget.label,
           style: const TextStyle(
               color: Colors.black54, fontSize: 12, fontWeight: FontWeight.w500),
         ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20),
+        SizedBox(
+          height: 50,
           child: TextFormField(
-            obscureText: obscureText,
-            keyboardType: keyboardType,
-            validator: validator,
-            controller: controller,
+            initialValue: widget.initValue,
+            focusNode: focusNode,
+            obscureText: widget.obscureText,
+            readOnly: readOnlyMode,
+            keyboardType: widget.keyboardType,
+            validator: widget.validator,
+            controller: widget.controller,
+            onFieldSubmitted: (String q) {
+              setState(() {
+                isEditing = false;
+              });
+            },
             decoration: InputDecoration(
-              prefixIcon: Icon(icon, size: 15, color: accentColor),
+              border: readOnlyMode
+                  ? const UnderlineInputBorder(borderSide: BorderSide.none)
+                  : const UnderlineInputBorder(),
+              prefixIcon: Icon(widget.icon, size: 20, color: accentColor),
+              suffixIcon: widget.editOnTap
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          focusNode.requestFocus();
+                          isEditing = true;
+                        });
+                      },
+                      child: SizedBox(
+                        height: 30,
+                        width: 30,
+                        child: isEditing
+                            ? const SizedBox()
+                            : const Icon(Icons.edit,
+                                size: 15, color: Colors.grey),
+                      ),
+                    )
+                  : null,
               errorStyle: Theme.of(context)
                   .textTheme
                   .labelSmall

@@ -12,6 +12,14 @@ class FirestoreHandler {
         .set(user.toJson());
   }
 
+  static Future<AppUser?> getUserData() async {
+    DocumentSnapshot doc = await FirebaseFirestore.instance
+        .collection(collectionUsers)
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get();
+    return AppUser.read(doc.data());
+  }
+
   static Future<bool> doesUserExists() async {
     DocumentSnapshot doc = await FirebaseFirestore.instance
         .collection(collectionUsers)
