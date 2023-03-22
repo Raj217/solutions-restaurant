@@ -17,15 +17,15 @@ import 'package:solutions/utils/validators.dart';
 
 showUserDataUpdateDialog(BuildContext context,
     {void Function(dynamic)? onValue}) async {
-  Future.delayed(const Duration(milliseconds: 400), () {
-    showCustomDialog(
-      context,
-      addLoaderOverlayParent: true,
-      onValue: onValue ?? (_) {},
-      child: const _UserDataUpdateDialog(),
-      isBarrierDismissible: false,
-    );
-  });
+  showCustomDialog(
+    context,
+    addLoaderOverlayParent: true,
+    onValue: onValue ?? (_) {},
+    child: const _UserDataUpdateDialog(),
+    isBarrierDismissible:
+        Provider.of<UserHandler>(context, listen: false).user?.firstName !=
+            null,
+  );
 }
 
 class _UserDataUpdateDialog extends StatefulWidget {
